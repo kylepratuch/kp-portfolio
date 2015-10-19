@@ -1,0 +1,27 @@
+<?php
+
+function cards_menu(){
+    $friends = ["Joe", "Mary", "Paul", "Cindy", "Bubba"];
+    $items = array();
+    foreach($friends as $friend){
+        $items['cards/'.$friend] = array(
+                'title' => $friend."'s Card",
+                'page callback' => 'show_card',
+                'access callback' => TRUE,
+                'type' => MENU_NORMAL_ITEM,
+                'page arguments' => array($friend),
+        );
+    };
+    return $items;
+}
+
+function show_card($friend){
+    return "<h2>Hey, $friend!</h2>
+            <p>How's it going?</p>
+            <p>We hope you've been well. We are learning to make web pages in Drupal! It is
+            <strong>INCREDIBLY</strong> exciting.</p>
+            <p>Sincerely,</p>
+            <p>Kyle and Chris</p>
+
+    ";
+}
