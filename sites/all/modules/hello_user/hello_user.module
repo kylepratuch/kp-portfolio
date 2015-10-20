@@ -1,0 +1,26 @@
+<?php
+
+// Create a new page without a navigation link so we can redirect to it
+function hello_user_menu() {
+    $items = array();
+    $items['user_added'] = array(
+            'title' => "User Added!",
+            'page callback' => 'user_added_page',
+            'access callback' => TRUE,
+            'type' => MENU_CALLBACK,
+        );
+    return $items;
+}
+
+// Page callback
+function user_added_page() {
+  return "<h1>Thanks for adding a user!</h1>";
+}
+
+/*
+** Implements hook_user_insert().
+** When a new user is added, redirect to the success page.
+*/
+function hello_user_user_insert() {
+  $_GET['destination'] = 'user_added';
+}
