@@ -1,0 +1,5 @@
+name = Clock Angle
+description = Given the time, determines the angle of a clock's hands.
+package = My First Modules
+core = 7.x
+files[] = clock_angle.module
