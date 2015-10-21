@@ -1,0 +1,77 @@
+<?php
+
+function queen_attack_menu() {
+  $items['queen_attack'] = array(
+    'title' => 'Queen Attack',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('queen_attack_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['queen_attack_success_page'] = array(
+    'title' => 'Success',
+    'page callback' => 'queen_attack_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function queen_attack_form() {
+  $form['queen_x'] = array(
+    '#title' => 'Queen X',
+    '#type' => 'textfield',
+    '#description' => t('Please enter an X coord for the queen.'),
+  );
+  $form['queen_y'] = array(
+    '#title' => 'Queen Y',
+    '#type' => 'textfield',
+    '#description' => t('Please enter a Y coord for the queen.'),
+  );
+
+  $form['piece_x'] = array(
+    '#title' => 'Piece X',
+    '#type' => 'textfield',
+    '#description' => t('Please enter an X coord for the opposing piece.'),
+  );
+  $form['piece_y'] = array(
+    '#title' => 'Piece Y',
+    '#type' => 'textfield',
+    '#description' => t('Please enter a Y coord for the opposing piece.'),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Can she attack?',
+  );
+
+  return $form;
+}
+
+function queen_attack_form_submit($form, &$form_state) {
+  $queen_x = $form_state['values']['queen_x'];
+  $queen_y = $form_state['values']['queen_y'];
+
+  $piece_x = $form_state['values']['piece_x'];
+  $piece_y = $form_state['values']['piece_y'];
+
+  $answer = '';
+
+  if ($queen_x == $piece_x || $queen_y == $piece_y) {
+    $answer = "She's coming straight for you. Watch out!";
+  } elseif (($queen_x - $queen_y) == ($piece_x - $piece_y)) {
+    $answer = "She's coming in at an angle. Watch it!";
+  } else {
+    $answer = "She can't attack. Piece is safe!";
+  }
+
+  $_SESSION['queen_attack_output'] = $answer;
+
+  $form_state['redirect'] = 'queen_attack_success_page';
+}
+
+function queen_attack_success() {
+  $answer = $_SESSION['queen_attack_output'];
+  return $answer;
+}

@@ -1,0 +1,5 @@
+name = Queen Attack
+description = Determines whether or not a queen can attack on a chess board.
+package = My First Modules
+core = 7.x
+files[] = queen_attack.module
