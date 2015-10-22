@@ -1,0 +1,5 @@
+name = State Poll
+description = Polls Oregon residents re: their favorite ice cream flavors.
+package = My First Modules
+core = 7.x
+files[] = state_poll.module

@@ -1,0 +1,5 @@
+name = Triangle Tracker
+description = This module will tell you what kind of triangle you have, given three sides.
+package = My First Modules
+core = 7.x
+files[] = triangle_tracker.module

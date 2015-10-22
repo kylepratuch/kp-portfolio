@@ -1,5 +1,8 @@
 <?php
 
+/*
+** Module menu setup:
+*/
 function ping_pong_menu() {
   $items = array();
   $items['ping_pong'] = array(
@@ -20,11 +23,16 @@ function ping_pong_menu() {
   return $items;
 }
 
+/*
+** Module form setup:
+*/
 function ping_pong_form() {
   $form['count_goal'] = array(
     '#title' => 'Count Goal',
     '#type' => 'textfield',
     '#description' => t('Please enter the number you want to count up to.'),
+    '#element_validate' => array('element_validate_integer_positive'),
+    '#required' => TRUE,
   );
 
   $form['submit'] = array(
@@ -35,6 +43,9 @@ function ping_pong_form() {
   return $form;
 }
 
+/*
+**Functions called on submit.
+*/
 function ping_pong_form_submit($form, &$form_state) {
 
   $count_max = $form_state['values']['count_goal'];

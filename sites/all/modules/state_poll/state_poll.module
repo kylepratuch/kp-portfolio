@@ -1,0 +1,70 @@
+<?php
+
+function state_poll_menu() {
+  $items['state_poll'] = array(
+    'title' => 'State Poll',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('state_poll_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['state_poll_success_page'] = array(
+    'title' => 'Tastes like success!',
+    'page callback' => 'state_poll_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function state_poll_form() {
+  $form['flavor'] = array(
+    '#title' => 'Ice Cream Flavor',
+    '#type' => 'textfield',
+    '#description' => t('Please enter your favorite ice cream flavor.'),
+    '#required' => TRUE,
+  );
+
+  $form['state'] = array(
+    '#title' => 'State of residence',
+    '#type' => 'textfield',
+    '#description' => t('Please enter your state of residence.'),
+    '#element_validate' => array('element_validate_state_name'),
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Go',
+  );
+
+  return $form;
+}
+
+function element_validate_state_name($element, $form_state) {
+  $state_name = $form_state['values']['state'];
+  if ($state_name != 'Oregon' &&
+      $state_name != 'oregon' &&
+      $state_name != 'OR' &&
+      $state_name != 'or'){
+    form_error($element, t('Sorry, this poll is for Oregon residents only.'));
+  }
+
+}
+
+function state_poll_form_submit($form, &$form_state) {
+  $flavor = $form_state['values']['flavor'];
+  $state = $form_state['values']['state'];
+
+  $readback = "Thank you! We have you down for $flavor in the state of $state!";
+
+  $_SESSION['state_poll_output'] = $readback;
+
+  $form_state['redirect'] = 'state_poll_success_page';
+}
+
+function state_poll_success() {
+  $readback = $_SESSION['state_poll_output'];
+  return $readback;
+}
